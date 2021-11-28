@@ -31,12 +31,14 @@ static int event_handler(void *userdata, SDL_Event *event)
 			win_key_event(KEY_ARROW_LEFT);
 		else if (event->key.keysym.scancode == SDL_SCANCODE_RIGHT)
 			win_key_event(KEY_ARROW_RIGHT);
+		else if (event->key.keysym.scancode == SDL_SCANCODE_ESCAPE)
+			win_key_event(KEY_ESC);
 	}
 
 	return 0; /* ignored */
 }
 
-int win_init()
+int win_init(int width, int height, int fullscreen)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
@@ -46,7 +48,7 @@ int win_init()
 
 	current_window = SDL_CreateWindow("QLabInfo",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		1024, 768, 0);
+		width, height, fullscreen ? SDL_WINDOW_FULLSCREEN : 0);
 	if (current_window == NULL)
 	{
 		qprint(LOG_ERROR, "sdl2: Could not create window");

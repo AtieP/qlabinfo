@@ -1,6 +1,7 @@
 #include "qlabinfo.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 /* TODO: Refresh rates */
 
@@ -95,13 +96,48 @@ void win_key_event(enum Keys key)
 	else if (key == KEY_H)
 	{
 		win_msgbox(LOG_INFO, "QLabInfo Help",
-			"C: Show current Vistar\nU: Update status\n"
+			"ESC: Exit\nC: Show current Vistar\nU: Update status\n"
 			"Arrow left: Previous Vistar\nArrow Right: Next Vistar");
 	}
+	else if (key == KEY_ESC)
+		exit(0);
 }
 
-int main()
+int main(int argc, char **argv)
 {
+	/* command line argument parsing */
+	int width = 1024, height = 768, fullscreen = 0;
+
+	/* find if custom wxh */
+	if (argc > 1)
+	{
+		char *limit;
+		width = strtol(argv[1], &limit, 10);
+		if (width == 0 || *limit != 'x')
+		{
+			qprint(LOG_ERROR, "Invalid argument");
+			return 1;
+		}
+
+		height = strtol(limit + 1, NULL, 10);
+		if (height == 0)
+		{
+			qprint(LOG_ERROR, "Invalid argument");
+			return 1;
+		}
+	}
+
+	/* is fullscreen requested? */
+	for (int i = 1; i < argc; i++)
+	{
+		if (strcmp(argv[i], "fullscreen") == 0)
+		{
+			fullscreen = 1;
+			break;
+		}
+	}
+
+	/* general init */
 	atexit(cleanup);
 
 	if (net_init() != 0)
@@ -110,7 +146,7 @@ int main()
 		return 1;
 	}
 
-	if (win_init() != 0)
+	if (win_init(width, height, fullscreen) != 0)
 	{
 		qprint(LOG_ERROR, "Could not initialize the windowing stack");
 		return 1;

@@ -39,6 +39,8 @@ void qprint(enum LogLevels level, const char *str);
 
 enum Keys
 {
+	KEY_ESC,
+
 	KEY_C,
 	KEY_D,
 	KEY_H,
@@ -49,7 +51,7 @@ enum Keys
 	KEY_ARROW_RIGHT
 };
 
-int win_init();
+int win_init(int width, int height, int fullscreen);
 int win_msgbox(enum LogLevels level, const char *title,  const char *str);
 int win_image_flush(void *buf, size_t size);
 int win_deinit();

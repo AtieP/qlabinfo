@@ -94,11 +94,11 @@ struct cern_vistar cern_vistars[] =
 		1100, 6000
 	},
 	{
-		"LHC Collimator TL", image_url("lhcolli3.png"), NULL, NULL,
+		"LHC Collimator TL", image_url("lhccolli3.png"), NULL, NULL,
 		2000, 5000
 	},
 	{
-		"LHC Collimators Summary", image_url("lhcolli.png"), logbook_url_m("322"), NULL,
+		"LHC Collimators Summary", image_url("lhccolli.png"), logbook_url_m("322"), NULL,
 		1100, 6000
 	},
 	{
