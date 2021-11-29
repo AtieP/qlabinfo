@@ -4,7 +4,7 @@ OBJ := $(SRC:.c=.o)
 CC = gcc
 CCFLAGS := -Wall -Werror -Wextra --std=c11
 
-LDFLAGS := -lSDL2 $(shell curl-config --libs) -lSDL2_image
+LDFLAGS := -lSDL2 $(shell curl-config --libs) -lSDL2_image -lpthread
 
 TARGET = qlabinfo
 

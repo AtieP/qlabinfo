@@ -38,9 +38,17 @@ static int event_handler(void *userdata, SDL_Event *event)
 	return 0; /* ignored */
 }
 
+Uint32 timer_handler(Uint32 interval, void *user)
+{
+	(void) user;
+
+	win_timer_event();
+	return interval;
+}
+
 int win_init(int width, int height, int fullscreen)
 {
-	if (SDL_Init(SDL_INIT_VIDEO) != 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0)
 	{
 		qprint(LOG_ERROR, "sdl2: Could not initialize");
 		return -1;
@@ -170,6 +178,6 @@ int win_deinit()
 
 void win_detach_main_flow()
 {
+	SDL_AddTimer(5000, timer_handler, NULL);
 	for (;;) SDL_WaitEvent(NULL);
 }
-

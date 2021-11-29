@@ -2,8 +2,11 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <threads.h>
 
 #include <curl/curl.h>
+
+static mtx_t net_lock;
 
 static struct
 {
@@ -39,12 +42,14 @@ int net_init()
 
 int net_deinit()
 {
+	mtx_init(&net_lock, mtx_plain);
 	curl_global_cleanup();
 	return 0;
 }
 
 int net_download(const char *url, void **buf, size_t *size)
 {
+	mtx_lock(&net_lock);
 	destination.dest = NULL;
 	destination.size = 0;
 
@@ -57,6 +62,7 @@ int net_download(const char *url, void **buf, size_t *size)
 
 	*buf = destination.dest;
 	*size = destination.size;
+	mtx_unlock(&net_lock);
 
 	return 0;
 }

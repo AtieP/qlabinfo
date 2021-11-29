@@ -103,6 +103,11 @@ void win_key_event(enum Keys key)
 		exit(0);
 }
 
+void win_timer_event()
+{
+	display_vistar(current_vistar);
+}
+
 int main(int argc, char **argv)
 {
 	/* command line argument parsing */

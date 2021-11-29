@@ -58,6 +58,7 @@ int win_deinit();
 void win_detach_main_flow(); /* this timeouts */
 
 extern void win_key_event(enum Keys key);
+extern void win_timer_event();
 
 #endif
 
